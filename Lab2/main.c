@@ -149,14 +149,6 @@ static void udp_task(void *pvParameters)
     int addr_family = 0;
     int ip_protocol = 0;
 
-    /*
-    struct sockaddr_in dest_addr;
-    dest_addr.sin_addr.s_addr = inet_addr(CONFIG_PEER_IP_ADDR); // unde #define CONFIG_PEER_IP_ADDR "192.168.89.abc"
-    dest_addr.sin_family = AF_INET;
-    dest_addr.sin_port = htons(CONFIG_PEER_PORT);
-    addr_family = AF_INET;
-    ip_protocol = IPPROTO_IP;
-    */
 
     struct sockaddr_in local_addr;
     local_addr.sin_addr.s_addr = htonl(INADDR_ANY);
