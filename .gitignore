@@ -1,0 +1,14 @@
+# Ignore everything
+*
+
+# But not directories and gitignore
+!*/
+!.gitignore
+
+# Only allow Lab folders
+!/Lab[0-9]*/
+
+# But still ignore everything inside non-Lab folders
+/[!L]*/
+/L[!a]*/
+/La[!b]*/
