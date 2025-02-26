@@ -149,7 +149,6 @@ static void udp_task(void *pvParameters)
     int addr_family = 0;
     int ip_protocol = 0;
 
-
     struct sockaddr_in local_addr;
     local_addr.sin_addr.s_addr = htonl(INADDR_ANY);
     local_addr.sin_family = AF_INET;
@@ -240,7 +239,8 @@ static void button_task(void *pvParameters)
     dest_addr.sin_port = htons(PEER_PORT);
 
     int sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP);
-    if (sock < 0) {
+    if (sock < 0)
+    {
         ESP_LOGE(TAG, "Unable to create sender socket: errno %d", errno);
         vTaskDelete(NULL);
     }
@@ -248,25 +248,30 @@ static void button_task(void *pvParameters)
     bool last_state = true;
     bool toggle_state = false;
 
-    while(1) {
+    while (1)
+    {
         bool current_state = gpio_get_level(BUTTON_GPIO);
-        
+
         // Button press detected (active low)
-        if (current_state == 0 && last_state == 1) {
+        if (current_state == 0 && last_state == 1)
+        {
             const char *message = toggle_state ? "GPIO4=1" : "GPIO4=0";
-            int err = sendto(sock, message, strlen(message), 0, 
-                           (struct sockaddr *)&dest_addr, sizeof(dest_addr));
-            
-            if (err < 0) {
+            int err = sendto(sock, message, strlen(message), 0,
+                             (struct sockaddr *)&dest_addr, sizeof(dest_addr));
+
+            if (err < 0)
+            {
                 ESP_LOGE(TAG, "Error sending: errno %d", errno);
-            } else {
+            }
+            else
+            {
                 ESP_LOGI(TAG, "Message sent: %s", message);
                 toggle_state = !toggle_state;
             }
         }
-        
+
         last_state = current_state;
-        vTaskDelay(50 / portTICK_PERIOD_MS);  // Debounce delay
+        vTaskDelay(50 / portTICK_PERIOD_MS); // Debounce delay
     }
 }
 
